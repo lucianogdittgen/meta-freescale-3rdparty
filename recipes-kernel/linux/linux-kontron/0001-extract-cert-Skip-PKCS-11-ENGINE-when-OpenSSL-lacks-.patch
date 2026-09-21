@@ -1,0 +1,66 @@
+From: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
+Date: Mon, 21 Sep 2026 11:40:00 -0300
+Subject: [PATCH] extract-cert: Skip the PKCS#11 ENGINE path when OpenSSL lacks
+ ENGINE
+
+OpenSSL 4 removed the ENGINE implementation. It still installs
+<openssl/engine.h>, so extract-cert.c compiles, but every ENGINE_* symbol
+is gone from libcrypto and the host tool fails to link:
+
+  undefined reference to `ENGINE_load_builtin_engines'
+  undefined reference to `ENGINE_by_id'
+
+which breaks do_compile for any kernel old enough to predate the upstream
+migration (v6.x, "sign-file,extract-cert: use pkcs11 provider for OPENSSL
+MAJOR >= 3").
+
+ENGINE is used only to read a certificate from a pkcs11: URI. Guard that
+branch with OpenSSL's own OPENSSL_NO_ENGINE, which the OpenSSL 4 headers
+define, so a file-based CONFIG_MODULE_SIG_KEY -- what this BSP uses -- is
+unaffected. A pkcs11: source now fails with a clear diagnostic instead of
+not linking at all.
+
+Upstream-Status: Inappropriate [oe-specific]
+
+Backporting the upstream provider-based rewrite would pull in its
+supporting header refactor; this keeps the change local to the ENGINE use
+that no longer links.
+
+Signed-off-by: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
+---
+ scripts/extract-cert.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/scripts/extract-cert.c b/scripts/extract-cert.c
+--- a/scripts/extract-cert.c
++++ b/scripts/extract-cert.c
+@@ -21,7 +21,9 @@
+ #include <openssl/bio.h>
+ #include <openssl/pem.h>
+ #include <openssl/err.h>
++#ifndef OPENSSL_NO_ENGINE
+ #include <openssl/engine.h>
++#endif
+ 
+ #define PKEY_ID_PKCS7 2
+ 
+@@ -112,6 +114,7 @@ int main(int argc, char **argv)
+ 		fclose(f);
+ 		exit(0);
+ 	} else if (!strncmp(cert_src, "pkcs11:", 7)) {
++#ifndef OPENSSL_NO_ENGINE
+ 		ENGINE *e;
+ 		struct {
+ 			const char *cert_id;
+@@ -133,6 +136,11 @@ int main(int argc, char **argv)
+ 		ENGINE_ctrl_cmd(e, "LOAD_CERT_CTRL", 0, &parms, NULL, 1);
+ 		ERR(!parms.cert, "Get X.509 from PKCS#11");
+ 		write_cert(parms.cert);
++#else
++		fprintf(stderr,
++			"extract-cert: this OpenSSL build has no ENGINE support; pkcs11: sources are unavailable\n");
++		exit(1);
++#endif
+ 	} else {
+ 		BIO *b;
+ 		X509 *x509;

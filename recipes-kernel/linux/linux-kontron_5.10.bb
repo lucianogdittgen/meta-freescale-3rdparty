@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 DEPENDS += "lzop-native bc-native"
 
 SRC_URI = "git://git.kontron-electronics.de/linux/linux.git;protocol=https;branch=${SRCBRANCH} \
+           file://0001-extract-cert-Skip-PKCS-11-ENGINE-when-OpenSSL-lacks-.patch \
            file://defconfig"
 LOCALVERSION = "-ktn"
 
