@@ -1,4 +1,6 @@
-DESCRIPTION = "ARM Trusted Firmware"
+SUMMARY = "ARM Trusted Firmware for NXP QorIQ platforms"
+DESCRIPTION = "Reference implementation of Armv8-A secure world software for the NXP QorIQ and Layerscape SoCs"
+HOMEPAGE = "https://github.com/nxp-qoriq/atf"
 
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://license.rst;md5=e927e02bca647e14efd87e9e914b2443"
