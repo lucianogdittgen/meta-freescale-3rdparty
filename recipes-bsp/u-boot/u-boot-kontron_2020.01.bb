@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
 
 SRC_URI = "git://git.kontron-electronics.de/linux/u-boot.git;protocol=https;branch=${SRCBRANCH} \
            file://fw_env.config \
+           file://0001-kontron-mx6ul-Include-the-i.MX-eSDHC-header.patch \
 "
 SRCREV = "3d58441adf3e633279db6c96acb33a7aef4fd6f9"
 SRCBRANCH = "v2020.01-ktn"

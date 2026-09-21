@@ -1,0 +1,38 @@
+From: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
+Date: Mon, 21 Sep 2026 18:10:00 -0300
+Subject: [PATCH] kontron: mx6ul: Include the i.MX eSDHC header
+
+board/kontron/imx/mx6ul/spl.c includes <fsl_esdhc.h>, which declares
+fsl_esdhc_initialize() only under CONFIG_FSL_ESDHC. This board selects
+CONFIG_FSL_ESDHC_IMX, so the declaration is invisible and the call is
+implicit. GCC 14 made -Wimplicit-function-declaration an error, so the
+SPL no longer builds:
+
+  spl.c:129:31: error: implicit declaration of function
+  'fsl_esdhc_initialize'
+
+Include <fsl_esdhc_imx.h>, which declares it under CONFIG_FSL_ESDHC_IMX
+and is what the other i.MX boards in this tree use.
+
+Upstream-Status: Inappropriate [no upstream]
+
+This board lives on the vendor's v2020.01-ktn branch; mainline u-boot
+removed the non-DM eSDHC init path entirely.
+
+Signed-off-by: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
+---
+ board/kontron/imx/mx6ul/spl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/board/kontron/imx/mx6ul/spl.c b/board/kontron/imx/mx6ul/spl.c
+--- a/board/kontron/imx/mx6ul/spl.c
++++ b/board/kontron/imx/mx6ul/spl.c
+@@ -14,7 +14,7 @@
+ #include <asm/mach-imx/boot_mode.h>
+ #include <asm/io.h>
+ #include <common.h>
+-#include <fsl_esdhc.h>
++#include <fsl_esdhc_imx.h>
+ #include <linux/sizes.h>
+ #include <mmc.h>
+ 
