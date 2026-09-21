@@ -1,0 +1,44 @@
+From: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
+Date: Mon, 21 Sep 2026 13:10:00 -0300
+Subject: [PATCH] mxc: gpu-viv: Declare _QuerySignal with its real return type
+
+gc_hal_kernel_linux.h prototypes _QuerySignal() as returning gctBOOL, but
+the function is defined in gc_hal_kernel_os.c as returning gceSTATUS. The
+two disagree: gctBOOL is an integer typedef, gceSTATUS an enum. GCC 14
+turned that into a hard error (-Werror=enum-int-mismatch, on by default
+since it was promoted from a warning), so the driver no longer builds:
+
+  gc_hal_kernel_os.c:5703:1: error: conflicting types for '_QuerySignal'
+  due to enum/integer mismatch; have 'gceSTATUS(struct _gckOS *, void *)'
+
+The definition is the correct one, and both call sites already agree with
+it: gc_hal_kernel_sync.c stores the result in a gceSTATUS and tests it
+with gcmIS_ERROR() and against gcvSTATUS_TRUE, neither of which is a
+gctBOOL operation. Only the prototype is wrong, so correct it there.
+
+No functional change: the two types have the same size and the generated
+code is unchanged; this only makes the declaration match the definition.
+
+Upstream-Status: Inappropriate [no upstream]
+
+The nxp-qoriq/linux 5.4 branch this BSP pins (LSDK 20.04) is no longer
+maintained, and drivers/mxc/gpu-viv is a vendor driver that was never in
+mainline, so there is no upstream to send this to.
+
+Signed-off-by: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
+---
+ drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_linux.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_linux.h b/drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_linux.h
+--- a/drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_linux.h
++++ b/drivers/mxc/gpu-viv/hal/os/linux/kernel/gc_hal_kernel_linux.h
+@@ -311,7 +311,7 @@ _ConvertLogical2Physical(
+     OUT gctPHYS_ADDR_T * Physical
+     );
+ 
+-gctBOOL
++gceSTATUS
+ _QuerySignal(
+     IN gckOS Os,
+     IN gctSIGNAL Signal

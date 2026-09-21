@@ -9,6 +9,7 @@ SRC_URI = "git://github.com/nxp-qoriq/linux;protocol=https;nobranch=1 \
     file://0001-perf-bench-Share-some-global-variables-to-fix-build-.patch \
     file://0001-libtraceevent-Fix-build-with-binutils-2.35.patch \
     file://0001-extract-cert-Skip-PKCS-11-ENGINE-when-OpenSSL-lacks-.patch \
+    file://0001-mxc-gpu-viv-Declare-_QuerySignal-with-its-real-return.patch \
 "
 SRCREV = "6bff40d413b394c2d742e7a42089bfc62aef0a9b"
 
