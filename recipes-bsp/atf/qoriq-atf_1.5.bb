@@ -17,6 +17,7 @@ S = "${WORKDIR}/git"
 SRC_URI = "git://source.codeaurora.org/external/qoriq/qoriq-components/atf;nobranch=1 \
     file://0001-Clean-usage-of-void-pointers-to-access-symbols.patch \
     file://0002-gicv3-Mark-gic_version-unused-when-assertions-are-off.patch \
+    file://0003-Do-not-warn-on-RWX-LOAD-segments.patch \
 "
 SRCREV = "5ae5233c064e94a8bd1b4a1652a03b87b0be63f6"
 
