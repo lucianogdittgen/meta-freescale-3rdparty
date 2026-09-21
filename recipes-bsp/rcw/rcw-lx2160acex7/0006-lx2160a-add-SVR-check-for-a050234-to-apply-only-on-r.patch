@@ -11,7 +11,6 @@ Signed-off-by: Rabeeh Khoury <rabeeh@solid-run.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/lx2160asi/a050234.rcw b/lx2160asi/a050234.rcw
-index 72a40e4..2130709 100644
 --- a/lx2160asi/a050234.rcw
 +++ b/lx2160asi/a050234.rcw
 @@ -4,6 +4,12 @@
@@ -24,9 +23,9 @@ index 72a40e4..2130709 100644
 +jumpc 0x00000014,0x00000010
 +/* Skip the following instructions by jumping to the end */
 +jump  0xc8
- write 0x1ea1200,0x20081004
- write 0x1ea1240,0x20081004
- write 0x1ea1280,0x20081004
+ 
+ #define SRDS_BASE 0x1ea0000 /* SerDes 1 */
+ #include <../serdes_28g.rcw>
 -- 
 2.17.1
 
