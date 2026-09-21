@@ -6,6 +6,8 @@ inherit fsl-u-boot-localversion
 require recipes-bsp/u-boot/u-boot.inc
 
 SUMMARY = "U-Boot for Kontron based boards"
+DESCRIPTION = "U-Boot bootloader for Kontron Electronics i.MX6UL/ULL boards, built from the vendor maintained tree"
+HOMEPAGE = "https://git.kontron-electronics.de/linux/u-boot"
 DEPENDS += "bison-native bc-native dtc-native lzop-native"
 
 LICENSE = "GPL-2.0-or-later"
