@@ -6,6 +6,7 @@ inherit fsl-u-boot-localversion
 require recipes-bsp/u-boot/u-boot.inc
 
 SUMMARY = "U-Boot for Kontron based boards"
+SECTION = "bootloaders"
 DEPENDS += "bison-native bc-native dtc-native lzop-native"
 
 LICENSE = "GPL-2.0-or-later"
