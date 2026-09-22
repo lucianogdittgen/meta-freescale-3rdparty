@@ -9,7 +9,7 @@ SRCBRANCH = "lf_v2024.04"
 LOCALVERSION ?= "-${SRCBRANCH}"
 SRCREV = "e3219a5a73445219df605d1492687918d488055c"
 
-DEPENDS += " \
+DEPENDS += "\
     bc-native \
     bison-native \
     dtc-native \
