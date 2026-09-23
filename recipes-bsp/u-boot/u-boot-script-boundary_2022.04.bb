@@ -1,6 +1,6 @@
 require recipes-bsp/u-boot/u-boot-boundary-common_${PV}.inc
 
-DEPENDS = "u-boot-mkimage-native"
+DEPENDS += "u-boot-mkimage-native"
 
 inherit deploy
 
