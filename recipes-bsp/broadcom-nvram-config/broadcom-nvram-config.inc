@@ -20,7 +20,7 @@ SRC_URI += " \
    file://brcmfmac${CHIP_MODEL}-sdio.txt \
 "
 
-FILES:${PN} = " \
+FILES:${PN} += "\
   ${BRCM_FWDIR}/brcmfmac${CHIP_MODEL}-sdio.txt \
 "
 
