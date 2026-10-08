@@ -35,8 +35,8 @@ permissions:
 env:
   OE_BRANCH: master
   # The dependency layer, which also provides the machine selector.
-  FREESCALE_REPO: Freescale/meta-freescale
-  FREESCALE_REF: master
+  FREESCALE_REPO: lucianogdittgen/meta-freescale
+  FREESCALE_REF: check-layer-ci-3rdparty-base
   LAYER: ${{ github.workspace }}/meta-freescale-3rdparty
   FREESCALE: ${{ github.workspace }}/meta-freescale
 
