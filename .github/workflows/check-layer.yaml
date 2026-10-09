@@ -38,7 +38,7 @@ permissions:
 
 env:
   # The dependency layer, which also provides the machine selector.
-  FREESCALE_REPO: Freescale/meta-freescale
+  FREESCALE_REPO: lucianogdittgen/meta-freescale
   LAYER: ${{ github.workspace }}/meta-freescale-3rdparty
   FREESCALE: ${{ github.workspace }}/meta-freescale
 
@@ -79,7 +79,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: ${{ env.FREESCALE_REPO }}
-          ref: ${{ steps.release.outputs.oe }}
+          ref: check-layer-ci-workflow
           path: meta-freescale
       - uses: actions/checkout@v4
         with:

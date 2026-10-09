@@ -38,3 +38,5 @@ SRCBRANCH = "v5.10-ktn"
 SRCREV = "546dec2e2d46f9050f6b5484d909e9d7a1f14747"
 
 COMPATIBLE_MACHINE = "(imx6ul-kontron)"
+
+DEPENDS += "does-not-exist-annotate-test"
